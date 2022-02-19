@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D898563A-F904-4411-96E4-EFC0B98C87EE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="src\application\passaporteGitaction.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="test\passaporteGitiactiontest.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="passaporteGitaction">
+        <MSBuild Projects="src\application\passaporteGitaction.dproj"/>
+    </Target>
+    <Target Name="passaporteGitaction:Clean">
+        <MSBuild Projects="src\application\passaporteGitaction.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="passaporteGitaction:Make">
+        <MSBuild Projects="src\application\passaporteGitaction.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="passaporteGitiactiontest">
+        <MSBuild Projects="test\passaporteGitiactiontest.dproj"/>
+    </Target>
+    <Target Name="passaporteGitiactiontest:Clean">
+        <MSBuild Projects="test\passaporteGitiactiontest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="passaporteGitiactiontest:Make">
+        <MSBuild Projects="test\passaporteGitiactiontest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="passaporteGitaction;passaporteGitiactiontest"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="passaporteGitaction:Clean;passaporteGitiactiontest:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="passaporteGitaction:Make;passaporteGitiactiontest:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
