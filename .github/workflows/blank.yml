@@ -23,8 +23,8 @@ jobs:
       - name: Build project master
         run: .\build.bat .\src\application passaporteGitaction.dproj
 
-      # - name: Compact archive
-      #   run: Compress-Archive -Path src\application\Win32\Debug\GitActionLogin.exe -DestinationPath .\GitActionLogin.zip
+      - name: Compact archive
+        run: Compress-Archive -Path src\application\Win32\Debug\passaporteGitaction.exe -DestinationPath .\passaporteGitaction.zip
 
       # - name: Create configuration AWS
       #   run: |
@@ -35,27 +35,27 @@ jobs:
       #     .\config.exe ${{secrets.AWS_ACCESS_KEY_ID}} ${{secrets.AWS_SECRET_ACCESS_KEY}} ${{secrets.AWS_DEFAULT_REGION}}
       #     cd ..\..\
       #     Compress-Archive -Path .\ConfigCache.lc4 -DestinationPath ..\..\..\GitActionLogin.zip -Update
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: build
-      #     path: .\GitActionLogin.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: .\passaporteGitaction.zip
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
-  #     - name: Downloads build folder
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: build
-  #         path: production
+      - name: Downloads build folder
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: production
 
-  #     - name: Deploy AWS S3
-  #       run: aws s3 sync ./production s3://passaportfebrary
+      - name: Deploy AWS S3
+        run: aws s3 sync ./production s3://passaportfebrary
